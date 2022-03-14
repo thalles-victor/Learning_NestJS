@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
-import { db } from './database/data';
+const prisma = new PrismaClient();
+
+type UserProps = {
+  id: number;
+  name: string;
+  createdAt: Date;
+};
 
 @Injectable()
 export class AppService {
@@ -16,10 +23,19 @@ export class AppService {
     };
   }
 
-  registerUser(userParamName: string, userId: number): object[] {
-    let data = db.filter((user) => user.name === userParamName);
-    data = data.filter((user) => user.id == userId);
+  async registerUser(userParamName: string): Promise<object> {
+    const data = await prisma.user.create({
+      data: {
+        name: userParamName,
+      },
+    });
+    console.log('User have register');
+    console.log(data);
+    return data;
+  }
 
+  async getAllUsers(): Promise<UserProps[]> {
+    const data = await prisma.user.findMany();
     return data;
   }
 }

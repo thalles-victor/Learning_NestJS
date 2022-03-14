@@ -6,18 +6,16 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
+    return this.appService.getAllUsers();
   }
 
-  @Put(':userParamName/:userId')
+  @Put(':userParamName/')
   register(
     @Param('userParamName')
     userParamName: string,
-    @Param('userId')
-    userId: number,
   ) {
-    return this.appService.registerUser(userParamName, userId);
+    return this.appService.registerUser(userParamName);
   }
 }
 
