@@ -15,3 +15,22 @@ model User {
   name      String
   createdAt DateTime @default(now())
 }
+
+model Author {
+  id      Int     @id @default(autoincrement())
+  name    String
+  recipe  Recipes[]
+  createdAt DateTime @default(now())
+}
+
+
+model Recipes {
+  id        Int       @id @default(autoincrement())
+  name      String
+  authorId  Int?
+  author    Author?   @relation(fields: [authorId], references: [id])
+  createdAt DateTime  @default(now())
+}
+
+
+

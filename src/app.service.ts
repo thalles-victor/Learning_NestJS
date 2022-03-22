@@ -1,13 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
-
-type UserProps = {
-  id: number;
-  name: string;
-  createdAt: Date;
-};
+import { dataAuthor, dataRecipes } from './TypesAndInterfaces/Inputs';
 
 @Injectable()
 export class AppService {
@@ -15,27 +9,11 @@ export class AppService {
     return 'Hello World';
   }
 
-  userGetData(): object {
-    return {
-      name: 'thalles',
-      email: 'thalles@gmail.com',
-      thelephone: '965623321',
-    };
+  async registerRecipe(recipeData: dataRecipes) {
+    return recipeData;
   }
 
-  async registerUser(userParamName: string): Promise<object> {
-    const data = await prisma.user.create({
-      data: {
-        name: userParamName,
-      },
-    });
-    console.log('User have register');
-    console.log(data);
-    return data;
-  }
-
-  async getAllUsers(): Promise<UserProps[]> {
-    const data = await prisma.user.findMany();
-    return data;
+  async findAllRecipes() {
+    return 'This module return all recipes';
   }
 }

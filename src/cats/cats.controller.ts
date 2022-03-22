@@ -1,42 +1,20 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  HttpStatus,
-  HttpCode,
-  HttpException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { CatsService } from './cats.service';
-import { response, Response } from 'express';
-//Dto
-import { Cat } from '../interfaces/cat.interface';
+
+import { PropsCat, InputRegister } from './TypesAndInterfaces';
 
 @Controller('cats')
 export class CatsController {
-  constructor(private catsService: CatsService) {}
-
-  @Post()
-  async create(@Body() createCatDto: Cat) {
-    console.log(createCatDto);
-    this.catsService
-      .create(createCatDto)
-      .then(() => {
-        throw new HttpException(
-          {
-            status: HttpStatus.CREATED,
-            error: 'This is a custom error',
-          },
-          HttpStatus.CREATED,
-        );
-      })
-      .catch(() => {
-        //throw new HttpException('Fail', HttpStatus.CONFLICT);
-      });
-  }
+  constructor(readonly catsService: CatsService) {}
 
   @Get()
-  async findAll(): Promise<Cat[]> {
+  findAll(): PropsCat[] {
+    console.log('Request was aceppted');
     return this.catsService.findAll();
+  }
+
+  @Post()
+  registerCats(@Body() catInput: InputRegister): PropsCat {
+    return this.catsService.create(catInput);
   }
 }

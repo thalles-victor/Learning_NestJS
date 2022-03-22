@@ -1,30 +1,12 @@
-import { Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
-export class AppController {
+@Controller('')
+export class RegisterRecipe {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello() {
-    return this.appService.getAllUsers();
-  }
-
-  @Put(':userParamName/')
-  register(
-    @Param('userParamName')
-    userParamName: string,
-  ) {
-    return this.appService.registerUser(userParamName);
-  }
-}
-
-@Controller('getDataUser')
-export class GetDataFromUser {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getDatauser() {
-    return this.appService.userGetData();
+  async findAll() {
+    return await this.appService.findAllRecipes();
   }
 }
